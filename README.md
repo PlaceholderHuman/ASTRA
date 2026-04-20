@@ -23,8 +23,11 @@ Notes:
 
 
 ## Getting started
-After downloading the bundle of programs from ASTRA, the programs Generator and Astra are the most important.
+After downloading the bundle of programs from ASTRA, the programs Generator and Astra are the most important. 
 
+
+
+## Definitions
 ### Generator
 Generator is a program that takes in a .in file and generates a .ini file. To create a .in file, I just create a blank text file and then change the file end to .in. You give it some specifications and then it will create a distribution of particles based off of those. For example, this is a .in file to generate 1000 particles:
 ```
@@ -351,4 +354,6 @@ The output files generated:
 The OUTPUT section (page 57) lists parameters that will control what kind of output files will be generated. Sometimes in the defintion it will say "according to tables 3 and 4..." these tables (page 30-32) show what the files will contain. For example, having parameter LandFS = TRUE will generate a file named project.LandF.run number that contains the particles that were lost and or found in the simulation. The data in this file will have z, number of active particles, charge, number of lost particles, deposited energy, and total energy exchange.  
 Along with this, the time-based tracking will generate a file for every step (Step_max/Step_width). In this example file, there will be 200 files (1000/5) along with a log, reference, lost and found, emittance in 3 dimensions, and a cavity scan generated for every run.
 
+### Alpha Magnet
+The alpha magnet is a bending magnet that filters out particles with low/high energy above a certain cutoff. Since ASTRA does not have an alpha magnet namelist, a series of dipoles will be used to simulate an alpha magnet. Here are some [notes](https://docs.google.com/document/d/1pKsXQAKB06jLlrmyTY50P4nL7XAqHx2SgLA-vxI9VvE/edit?usp=sharing) on it. 
 
