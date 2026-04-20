@@ -14,8 +14,12 @@ This is for adding or editing elements of your beamline
 This is for editing the initial distribution
 * Types of distributions (page 103)
 The different distributions are listed here; use the bold part of the text in the keyword to define inside of Generator. Example Dist_z = '**u**niform' so use Dist_z ='u'
-Notes:
 
+
+Notes:
+* Always remember to leave a blank line or several on the Astra file otherwise it will crash. 
+* Cathode = True crashes on Mac.
+* The programs use a language called Fortran; use ! to start comment lines
 
 
 ## Getting started
@@ -55,5 +59,279 @@ Control the spread of each dimension with defined elements for each distribution
 After finishing the code, open generator ("./generator file.in" for Mac) and run the file. It will create a .ini file that you will plug into Astra.  
 
 
+### Astra
+Astra takes a .in file and a .ini file and will return many different files (according to how you set it up).   
+An Astra file would look like this: 
+```
+&NEWRUN
+    Run = 1
+
+    Auto_Phase = .T.
+
+    Distribution = 'test.ini'
+    !astrabroken.0060.443
+    !test.ini
+    !Insert relative to parent folder distribution file as string
+    !H_max = 1.000000e-03
+    
+    Head = 'UH FEL'
+
+    Lprompt = .F.
+    
+    PHASE_SCAN = .T.
+
+    Track_All = .T.
+
+    check_ref_part = .F.
+    !Condition to quit program if reference particle lost
+    Max_step = 100000
+    !H_min = 0.001
+    !H_max = 0.01
+    Z_min = -1
+    !Condition to quit program if reference touches -1 meters
+/
+
+&OUTPUT
+    !Prints an output file every step_max/step_width
+    PhaseS = .F.
+    RefS = .T.
+    T_PhaseS = .T.
+    Step_width = 5
+    !How many times to divide Step_max into
+    ZSTART = 0
+    ZSTOP = 1
+    Zemit = 100
+    Zphase = 1
+    TcheckS = .F.
+    TrackS = .F.
+    EmitS = .T.
+    LandFS = .T.
+    Step_max = 1000
+    !How many generations before quitting
+    Lmagnetized = .F.
+    Lsub_cor = .F.
+/
+
+&SCAN
+    !This is for setting up screens in a beamline
+    FOM(10) = 'ver offset'
+    FOM(1) = 'charge'
+    FOM(2) = 'mean energy'
+    FOM(3) = 'rms energy'
+    FOM(4) = 'length'
+    FOM(5) = 'hor emit'
+    FOM(6) = 'hor spot'
+    FOM(7) = 'hor offset'
+    FOM(8) = 'ver emit'
+    FOM(9) = 'ver spot'
+    LScan = .F.
+    S_max = 0.15
+    S_min = 0.05
+    S_numb = 61
+    Scan_para = 'D_strength(1)'
+/
+
+&CHARGE
+    Cell_var = 2
+    LSPCH = .F.
+    !space charge off
+    Lmirror = .T.
+    Max_scale = 1.000000e-01
+    Nlong_in = 20
+    Nrad = 20
+    min_grid = 4.000000e-07
+/
 
 
+&APERTURE
+    LApert = .F.
+    !aperture on is true
+    File_Aperture(1) = 'Col_X'
+    Ap_Z1(1) = -0.001
+    Ap_Z2(1) = 0.001
+    Ap_R(1) = 8
+    A_xrot(1) = -2.28131986526
+    A_pos(1) =  0.0874606
+    A_xoff(1) = -0.06665015
+/
+
+
+
+&CAVITY
+    C_Smooth(1) = 0
+    C_pos(1) = 0
+    LEfield = .F.
+    MaxE(1) = 33
+    Nue(1) = 2.856
+    Phi(1) = 0
+    File_Efield(1) = 'cavity.txt'
+/
+
+&QUADRUPOLE
+    !quadrupole off
+    Lquad = .F.
+    Q_type(1) = 'do'
+    Q_xrot(1) = 1.57079632679
+    Q_K(1) = 1500
+    Q_pos(1) = 0
+    Q_length(1) = 0.026
+    Q_dist(1) = 0.06985
+    Q_xoff(1) = 0.1
+    
+    !Q_type(2) = 'do'
+    !Q_K(2) = -150
+    !Q_pos(2) = 0.28
+    !Q_length(2) = 0.026
+    !Q_dist(2) = 0.06985
+
+/
+
+&DIPOLE
+    LDipole = .T.
+    D_Type(1) = 'hor'
+    D1(1) = (0.000424660,0.01036540)
+    D2(1) = (0.038219540,0.04288560)
+    D3(1) = (-0.007248640,0.019283290)
+    D4(1) = (0.030546230,0.051803490)
+    D_strength(1) = -0.007323532325619287
+    D_Gap(1,1) = 0.00
+    D_Gap(2,1) = 0.00
+    D_Type(2) = 'hor'
+    D1(2) = (-0.00725230,0.019287530)
+    D2(2) = (0.030542580,0.051807730)
+    D3(2) = (-0.014921950,0.028201180)
+    D4(2) = (0.022872930,0.060721380)
+    D_strength(2) = -0.021970596976857864
+    D_Gap(1,2) = 0.00
+    D_Gap(2,2) = 0.00
+    D_Type(3) = 'hor'
+    D1(3) = (-0.01492560,0.028205430)
+    D2(3) = (0.022869270,0.060725630)
+    D3(3) = (-0.022595260,0.037119070)
+    D4(3) = (0.015199620,0.069639270)
+    D_strength(3) = -0.03661766162809644
+    D_Gap(1,3) = 0.00
+    D_Gap(2,3) = 0.00
+    D_Type(4) = 'hor'
+    D1(4) = (-0.022598910,0.037123320)
+    D2(4) = (0.015195970,0.069643520)
+    D3(4) = (-0.030268560,0.046036960)
+    D4(4) = (0.007526310,0.078557160)
+    D_strength(4) = -0.05126472627933501
+    D_Gap(1,4) = 0.00
+    D_Gap(2,4) = 0.00
+    D_Type(5) = 'hor'
+    D1(5) = (-0.030272210,0.046041210)
+    D2(5) = (0.007522660,0.078561410)
+    D3(5) = (-0.037941870,0.054954860)
+    D4(5) = (-0.000146990,0.087475050)
+    D_strength(5) = -0.06591179093057359
+    D_Gap(1,5) = 0.00
+    D_Gap(2,5) = 0.00
+    D_Type(6) = 'hor'
+    D1(6) = (-0.037945520,0.05495910)
+    D2(6) = (-0.000150640,0.08747930)
+    D3(6) = (-0.045615170,0.063872750)
+    D4(6) = (-0.00782030,0.096392950)
+    D_strength(6) = -0.08055885558181217
+    D_Gap(1,6) = 0.00
+    D_Gap(2,6) = 0.00
+    D_Type(7) = 'hor'
+    D1(7) = (-0.045618830,0.063876990)
+    D2(7) = (-0.007823950,0.096397190)
+    D3(7) = (-0.053288480,0.072790640)
+    D4(7) = (-0.01549360,0.105310840)
+    D_strength(7) = -0.09520592023305074
+    D_Gap(1,7) = 0.00
+    D_Gap(2,7) = 0.00
+    D_Type(8) = 'hor'
+    D1(8) = (-0.053292130,0.072794890)
+    D2(8) = (-0.015497260,0.105315090)
+    D3(8) = (-0.060961780,0.081708530)
+    D4(8) = (-0.023166910,0.114228730)
+    D_strength(8) = -0.10985298488428934
+    D_Gap(1,8) = 0.00
+    D_Gap(2,8) = 0.00
+    D_Type(9) = 'hor'
+    D1(9) = (-0.061386440,0.081343140)
+    D2(9) = (-0.031660140,0.106920820)
+    D3(9) = (-0.071800220,0.093445990)
+    D4(9) = (-0.042073910,0.119023670)
+    D_strength(9) = -0.11717651720990861
+    D_Gap(1,9) = 0.00
+    D_Gap(2,9) = 0.00
+    D_Type(10) = 'hor'
+    D3(10) = (-0.000424660,0.00963460)
+    D4(10) = (-0.038219540,-0.02288560)
+    D1(10) = (-0.008097970,0.01855250)
+    D2(10) = (-0.045892840,-0.01396770)
+    D_strength(10) = -0.007323532325619287
+    D_Gap(1,10) = 0.00
+    D_Gap(2,10) = 0.00
+    D_Type(11) = 'hor'
+    D3(11) = (-0.008101620,0.018556740)
+    D4(11) = (-0.04589650,-0.013963460)
+    D1(11) = (-0.015771270,0.027470390)
+    D2(11) = (-0.053566150,-0.005049810)
+    D_strength(11) = -0.021970596976857864
+    D_Gap(1,11) = 0.00
+    D_Gap(2,11) = 0.00
+    D_Type(12) = 'hor'
+    D3(12) = (-0.015774930,0.027474630)
+    D4(12) = (-0.05356980,-0.005045560)
+    D1(12) = (-0.023444580,0.036388280)
+    D2(12) = (-0.061239450,0.003868080)
+    D_strength(12) = -0.03661766162809644
+    D_Gap(1,12) = 0.00
+    D_Gap(2,12) = 0.00
+    D_Type(13) = 'hor'
+    D3(13) = (-0.023448230,0.036392530)
+    D4(13) = (-0.061243110,0.003872330)
+    D1(13) = (-0.031117880,0.045306170)
+    D2(13) = (-0.068912760,0.012785970)
+    D_strength(13) = -0.05126472627933501
+    D_Gap(1,13) = 0.00
+    D_Gap(2,13) = 0.00
+    D_Type(14) = 'hor'
+    D3(14) = (-0.031121540,0.045310420)
+    D4(14) = (-0.068916410,0.012790220)
+    D1(14) = (-0.038791190,0.054224060)
+    D2(14) = (-0.076586060,0.021703860)
+    D_strength(14) = -0.06591179093057359
+    D_Gap(1,14) = 0.00
+    D_Gap(2,14) = 0.00
+    D_Type(15) = 'hor'
+    D3(15) = (-0.038794840,0.054228310)
+    D4(15) = (-0.076589720,0.021708110)
+    D1(15) = (-0.046464490,0.063141960)
+    D2(15) = (-0.084259370,0.030621760)
+    D_strength(15) = -0.08055885558181217
+    D_Gap(1,15) = 0.00
+    D_Gap(2,15) = 0.00
+    D_Type(16) = 'hor'
+    D3(16) = (-0.046468150,0.06314620)
+    D4(16) = (-0.084263020,0.0306260)
+    D1(16) = (-0.05413780,0.072059850)
+    D2(16) = (-0.091932680,0.039539650)
+    D_strength(16) = -0.09520592023305074
+    D_Gap(1,16) = 0.00
+    D_Gap(2,16) = 0.00
+    D_Type(17) = 'hor'
+    D3(17) = (-0.054141450,0.072064090)
+    D4(17) = (-0.091936330,0.039543890)
+    D1(17) = (-0.061811110,0.080977740)
+    D2(17) = (-0.099605980,0.048457540)
+    D_strength(17) = -0.10985298488428934
+    D_Gap(1,17) = 0.00
+    D_Gap(2,17) = 0.00
+    D_Type(18) = 'hor'
+    D3(18) = (-0.061386440,0.081343140)
+    D4(18) = (-0.091112750,0.055765450)
+    D1(18) = (-0.071800220,0.093445990)
+    D2(18) = (-0.101526520,0.06786830)
+    D_strength(18) = -0.11717651720990861
+    D_Gap(1,18) = 0.00
+    D_Gap(2,18) = 0.00
+/
+```
+The file is split up into many different namelists (the sections with ALL CAPS text). The manual will define each of these. I recommend starting at page 54 and reading some of the basics of the first namelist NEWRUN. Each namelist controls a specific group of elements or parameters in the beamline. For example, 
