@@ -43,16 +43,16 @@ Generator is a program that takes in a .in file and generates a .ini file. To cr
  Dist_py='u', Nemit_y=1.0E0, cor_py=0.0E0
 /
 ```
-The file it will generate filled with the data for the distribution is test.ini. 
-The adding = FALSE means there will be no additional defined distributions to merge together. If wanted to add multiple distributions together, check add.in file in this github. The N_add will define how many files to add together, and the distributions can be defined in the same .in file. 
-The IPart controls how many particles will be generated, and the type (species) are electrons.
-The Probe particles generate spaced out particles which do not really affect distribution unless you are doing very small distributed tests (to my knowledge). Noise reduction I am not sure but I kept it on and it was fine.
+The file it will generate filled with the data for the distribution is test.ini.   
+The adding = FALSE means there will be no additional defined distributions to merge together. If wanted to add multiple distributions together, check add.in file in this github. The N_add will define how many files to add together, and the distributions can be defined in the same .in file.   
+The IPart controls how many particles will be generated, and the type (species) are electrons.  
+The Probe particles generate spaced out particles which do not really affect distribution unless you are doing very small distributed tests (to my knowledge). Noise reduction I am not sure but I kept it on and it was fine.  
 Cathode should be turned on for further tests after getting comfortable as the UH FEL utilizes a thermionic cathode. There will be time-dependancy and specifications will need to be looked at. The Mac version crashes when using cathode, so my distributions had it turned off.
-Q_total is the total charge of the electron bunch. Ref_zposition should be at 0. Ref_Ekin is the kinetic energy of the electron in MeV, so it should be around 0.4-1.1 for the alpha magnet tests (I believe 0.7-0.8 would be centered). 
-After all of those definitions, the parameters are defined according to the "types of distributions" section in the manual. Each dimension (x,y,z) and its momenta (px,py,pz) have distributions like "u" for uniform or "g" for gaussian. 
-Control the spread of each dimension with defined elements for each distribution type (gaussian would have sigma or cut off sigma while plateau would have rise time or length). This would be the C_sig_y=3 or Nemit_x=1.0E0 or sig_x=0.578 everything after the distribution types.
+Q_total is the total charge of the electron bunch. Ref_zposition should be at 0. Ref_Ekin is the kinetic energy of the electron in MeV, so it should be around 0.4-1.1 for the alpha magnet tests (I believe 0.7-0.8 would be centered).   
+After all of those definitions, the parameters are defined according to the "types of distributions" section in the manual. Each dimension (x,y,z) and its momenta (px,py,pz) have distributions like "u" for uniform or "g" for gaussian.   
+Control the spread of each dimension with defined elements for each distribution type (gaussian would have sigma or cut off sigma while plateau would have rise time or length). This would be the C_sig_y=3 or Nemit_x=1.0E0 or sig_x=0.578 everything after the distribution types.  
 
-After finishing the code, open generator ("./generator file.in" for Mac) and run the file. It will create a .ini file that you will plug into Astra.
+After finishing the code, open generator ("./generator file.in" for Mac) and run the file. It will create a .ini file that you will plug into Astra.  
 
 
 
