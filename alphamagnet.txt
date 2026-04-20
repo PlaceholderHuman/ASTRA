@@ -1,3 +1,4 @@
+#upload this text to a jupyter notebook
 #This is the code for n dipoles
 import numpy as np
 import matplotlib.pyplot as plt
