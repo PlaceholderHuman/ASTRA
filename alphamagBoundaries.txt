@@ -1,0 +1,74 @@
+#JUPYTER NOTEBOOK FILE
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import quad
+import math
+c = 299792458
+theta = 40.70/180*math.pi
+v0 =  0.937*c #HEC #0.917*c midpoint #0.891*c LEC
+#SCALING FACTOR c
+#input MEV
+g = 124.5
+#GRADIENT FACTOR IN G/cm
+#just multiply by Amps
+B = v0/c
+gamma = 1/math.pow((1-math.pow(v0,2)/(c**2)),0.5)
+print(gamma, "gamma")
+m = 9.1093837*math.pow(10,-31)
+q = 1.60217663*math.pow(10,-19)
+a = q*g/100/m/gamma
+#The a is defined differently in different papers
+# constants
+x1 = math.pow(2*v0*math.sin(theta)/a,0.5)
+xi  = math.pow(2*v0*(1+math.sin(theta))/a,0.5)# E looking one
+zeta = math.pow(2*v0*(1-math.sin(theta))/a,0.5)# C looking one
+
+
+lowlist = []
+uplist = []
+currentlist = []
+i = 9
+#i corresponds to the amps lowest value
+ke = 0.3
+lowerbound = False
+upperbound = False
+while i<=14:
+    currentlist.append(i)
+    g = i*10.375
+    #gradient factor in G/cm taken from paper
+    while ke <= 1.2:
+        #function that updates all variables based on kinetic energy
+        gamma = ke/0.511+1
+        v0 = c*math.pow((1-1/(gamma**2)),0.5)
+        a = q*g/100/m/gamma
+        xi  = math.pow(2*v0*(1+math.sin(theta))/a,0.5)
+        if not lowerbound and xi >= 0.0942230755826077:
+            lowerbound = True
+            lowlist.append(ke)
+            ke+=0.2 
+            #makes runtime smoother and should reasonably be able to skip in paper
+        if not upperbound and xi >= 0.11015397755673123:
+            #First value that EXCEEDS upper bound
+            upperbound = True
+            uplist.append(ke)
+        if lowerbound and upperbound:
+            lowerbound = False
+            upperbound = False
+            ke = 0.3
+            break
+        ke += 0.001
+    i+=0.1
+fig = plt.figure(figsize=(15,5))
+sec = fig.add_subplot(121)
+sec.plot(currentlist, lowlist, label='Lower KE Bound', marker='o',markersize=2)
+sec.plot(currentlist, uplist, label='Upper KE Bound', marker='o',markersize=2)
+#print((uplist[30] + lowlist[30])/2)
+
+sec.set_xlabel('Amps')
+sec.set_ylabel('Kinetic Energy (MeV)')
+sec.set_title("Kinetic Energy Bounds vs Amps")
+sec.legend()
+sec.grid(True)
+
+
+plt.show()
