@@ -24,7 +24,8 @@ Notes:
 
 ## Getting started
 After downloading the bundle of programs from ASTRA, the programs Generator and Astra are the most important. 
-
+Download cavity.txt, distribution.in, and alphacode.in from this github.
+Place everything into one folder and check 
 
 
 ## Definitions
