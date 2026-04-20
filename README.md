@@ -60,8 +60,8 @@ After finishing the code, open generator ("./generator file.in" for Mac) and run
 
 
 ### Astra
-Astra takes a .in file and a .ini file and will return many different files (according to how you set it up).   
-An Astra file would look like this: 
+The program Astra takes a .in file (and a .ini for distribution and .txt for cavity) and will return many different files (according to how you set it up). I have the cavity file and the distribution file in the same folder as the .in and Astra program.
+An Astra.in file would look like this: 
 ```
 &NEWRUN
     Run = 1
@@ -333,5 +333,22 @@ An Astra file would look like this:
     D_Gap(1,18) = 0.00
     D_Gap(2,18) = 0.00
 /
+
+
 ```
-The file is split up into many different namelists (the sections with ALL CAPS text). The manual will define each of these. I recommend starting at page 54 and reading some of the basics of the first namelist NEWRUN. Each namelist controls a specific group of elements or parameters in the beamline. For example, 
+The file is split up into many different namelists (the sections with ALL CAPS text). The manual will define each of these. I recommend starting at page 54 and reading some of the basics of the first namelist NEWRUN. Each namelist controls a specific group of elements or parameters in the beamline. For example, if you wanted to turn off the alpha magnet you would set LDipole = .F. or just delete the entire dipole section.  
+NEWRUN controls the basics of setting up what should happen; OUTPUT controls what files to generate and the time-based tracking; SCAN is if you want to do a linear slice in the beam and get any type of data from a certain z (z is the length going through the beamline); CHARGE is mostly for space charge effects which is off for more basic simulations; APERTURE is basically a defined cutoff for a beam (like a wall with a pipe going through); CAVITY is how the beam accelerates (I set this up with Harsh); QUADRUPOLE is for defining focusing magnets; DIPOLE is to bend the beam.  
+A key aspect of this code is that it hase time-based tracking rather than the typical linear tracking that you would define with ZSTART and ZSTOP (this is because the alpha magnet curves the beam completely around and linear tracking fails). In OUTPUT, Step_width = 5 and Step_max = 1000 are crucial for obtaining data. Step_width is how many times each step would be split into while Step_max would control how many steps in a run. For example, if I wanted very precise data I would increase the step width for precision and then also increase the step max (because the step width will consume more steps making the tracking end earlier than previous runs).   
+The most important namelists will be NEWRUN, OUTPUT, and DIPOLE if making changes to the alpha magnet.  
+
+Running Astra:   
+1. Ensure the RUN number (under NEWRUN) is different for each trial
+2. Change Step_width Step_max values to suit the run (under OUTPUT)
+3. Add elements (under DIPOLE) to define the alphamagnet (already predefined for 8 splittings 12amp)
+4. Save file and ensure there are new lines underneath the code (otherwise it will crash)
+
+The output files generated:  
+The OUTPUT section (page 57) lists parameters that will control what kind of output files will be generated. Sometimes in the defintion it will say "according to tables 3 and 4..." these tables (page 30-32) show what the files will contain. For example, having parameter LandFS = TRUE will generate a file named project.LandF.run number that contains the particles that were lost and or found in the simulation. The data in this file will have z, number of active particles, charge, number of lost particles, deposited energy, and total energy exchange.  
+Along with this, the time-based tracking will generate a file for every step (Step_max/Step_width). In this example file, there will be 200 files (1000/5) along with a log, reference, lost and found, emittance in 3 dimensions, and a cavity scan generated for every run.
+
+
