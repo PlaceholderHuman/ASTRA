@@ -355,5 +355,5 @@ The OUTPUT section (page 57) lists parameters that will control what kind of out
 Along with this, the time-based tracking will generate a file for every step (Step_max/Step_width). In this example file, there will be 200 files (1000/5) along with a log, reference, lost and found, emittance in 3 dimensions, and a cavity scan generated for every run.
 
 ### Alpha Magnet
-The alpha magnet is a bending magnet that filters out particles with low/high energy above a certain cutoff. Since ASTRA does not have an alpha magnet namelist, a series of dipoles will be used to simulate an alpha magnet. Here are some [notes](https://docs.google.com/document/d/1pKsXQAKB06jLlrmyTY50P4nL7XAqHx2SgLA-vxI9VvE/edit?usp=sharing) on it. 
+The alpha magnet is a bending magnet that filters out particles with low/high energy above a certain cutoff. Since ASTRA does not have an alpha magnet namelist, a series of dipoles will be used to simulate an alpha magnet. Here are some [notes](https://docs.google.com/document/d/1pKsXQAKB06jLlrmyTY50P4nL7XAqHx2SgLA-vxI9VvE/edit?usp=sharing) on it. The key paper used to formulate the alpha magnet is [here](https://proceedings.jacow.org/FEL2014/papers/thp023.pdf). The jupyter notebook code to generate the alphamagnets is attached (as rotated dipoles). 
 
