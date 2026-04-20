@@ -1,0 +1,91 @@
+#UPLOAD TO JUPYTER NOTEBOOK
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import quad
+import math
+c = 299792458
+theta = 40.70/180*math.pi
+v0 =  0.937*c #HEC #0.917*c midpoint #0.891*c LEC
+g = 124.5
+#enter gradient in G/cm above
+#1 T/m = 100 G/cm
+B = v0/c
+gamma = 1/math.pow((1-math.pow(v0,2)/(c**2)),0.5)
+m = 9.1093837*math.pow(10,-31)
+q = 1.60217663*math.pow(10,-19)
+a = q*g/100/m/gamma
+#The a is defined differently in different papers
+# constants
+x1 = math.pow(2*v0*math.sin(theta)/a,0.5)
+xi  = math.pow(2*v0*(1+math.sin(theta))/a,0.5)# E looking one
+zeta = math.pow(2*v0*(1-math.sin(theta))/a,0.5)# C looking one
+
+def integrand(u):
+    return (x1**2 - u**2) / np.sqrt((xi**2 - u**2) * (zeta**2 + u**2))
+    #definition of the integral based on the research paper
+def y_numeric(x):
+    val, err = quad(integrand, 0.0, x, limit=200)
+    #integrate the function
+    return val
+
+val,err = quad(integrand, x1, xi)
+
+# sample points symmetrically
+x_vals = np.linspace(-xi*0.2, xi, 200)
+y_vals = np.array([y_numeric(xx) for xx in x_vals])
+
+fig = plt.figure(figsize=(15,5))
+ax = fig.add_subplot(121)
+ax.plot(x_vals, y_vals, label='y(x) numeric', color = 'g')
+ax.plot(x_vals, -y_vals, '--', label='-y(x) mirrored', color = 'g')
+
+
+#SECOND SMALLER LOOP
+v0 = 0.891*c
+gamma = 1/math.pow((1-math.pow(v0,2)/(c**2)),0.5)
+m = 9.1093837*math.pow(10,-31)
+q = 1.60217663*math.pow(10,-19)
+a = q*g/100/m/gamma
+#The a is defined differently in different papers
+# constants
+x1 = math.pow(2*v0*math.sin(theta)/a,0.5)
+xi  = math.pow(2*v0*(1+math.sin(theta))/a,0.5)# E looking one
+zeta = math.pow(2*v0*(1-math.sin(theta))/a,0.5)# C looking one
+x_vals = np.linspace(-xi*0.2, xi, 200)
+y_vals = np.array([y_numeric(xx) for xx in x_vals])
+val,err = quad(integrand, x1, xi)
+
+ax.plot(x_vals, y_vals, label='y(x) numeric', color='g')
+ax.plot(x_vals, -y_vals, '--', label='-y(x) mirrored', color = 'g')
+#END OF SECOND SMALLER LOOP
+
+ke = 0.75
+gamma = ke/0.511+1
+v0 = c*math.pow((1-1/(gamma**2)),0.5)
+a = q*g/100/m/gamma
+m = 9.1093837*math.pow(10,-31)
+q = 1.60217663*math.pow(10,-19)
+#The a is defined differently in different papers
+# constants
+x1 = math.pow(2*v0*math.sin(theta)/a,0.5)
+xi  = math.pow(2*v0*(1+math.sin(theta))/a,0.5)
+zeta = math.pow(2*v0*(1-math.sin(theta))/a,0.5)
+print("zmax = " + str(xi) + " ; " +str(ke) + " Kinetic Energy")
+x_vals = np.linspace(-xi*0.2, xi, 200)
+y_vals = np.array([y_numeric(xx) for xx in x_vals])
+val,err = quad(integrand, x1, xi)
+print('xmax = '+ str(-val) + " ; " +str(ke) + " Kinetic Energy")
+
+ax.plot(x_vals, y_vals, label='y(x) numeric', color='b')
+ax.plot(x_vals, -y_vals, '--', label='-y(x) mirrored', color = 'b')
+print(x_vals.tolist())
+print(y_vals.tolist())
+
+ax.set_xlabel('z')
+ax.set_ylabel('x')
+ax.set_title('Alpha magnet shape (numeric integration)')
+ax.grid(True)
+
+
+#FIRST GRAPH FINISHED
+plt.show()
