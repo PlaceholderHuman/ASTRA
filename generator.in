@@ -1,0 +1,19 @@
+&INPUT
+ FNAME = 'test.ini'
+ Add=FALSE, N_add=0,
+ IPart=1000, Species='electrons'
+ Probe=False, Noise_reduc=T
+ Cathode=F
+ Q_total=60e-3
+ Ref_zpos=0.0E0, Ref_Ekin=0.75
+
+ Dist_z='u', sig_z=0,
+ sig_clock=1.5E-3, C_sig_clock=5
+ Dist_pz='g', sig_Ekin=13, cor_Ekin=0.0E0,
+
+ Dist_x='u', sig_x=0,
+ Dist_px='u',
+ Dist_y='u', sig_y=0,
+ Dist_py='u',
+/
+
