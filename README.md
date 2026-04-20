@@ -24,8 +24,12 @@ Notes:
 
 ## Getting started
 After downloading the bundle of programs from ASTRA, the programs Generator and Astra are the most important.    
-Download cavity.txt, distribution.in, and alphacode.in from this github.   
-Place everything into one folder and check 
+Download cavity.txt, generator.in, and astracode.in from this github.   
+Place everything into one folder and check to make sure the files will reference each other (correct filepaths). After, try run generator.in with the program generator. If it creates test.ini, then it worked. Otherwise if in hurry just download the example distribution from the github. With the distribution, cavity, and astracode.in try run Astra program with astracode.in. If it returns over 200 output files back then it worked. There may be several error messages while running astra but that is intended (the beam loops around and causes error).   
+For testing the alpha magnet, lower the Step_max in astra and get around to 1/3 of the beam. Then turn the APERTURE on, go through another 1/3rd of the beam. Then turn APERTURE off and run the rest of the beam.   
+This is because APERTURE (the wall with the pipe analogy) will delete the entire distribution at z=0 if it is turned on at the start. Like taking a loop through an infinitely long wall, the wall needs to be off when not going through the pipe. The beam needs to make it through a little bit so it is out of the cutoff range, then turn APERTURE on and it will "flow into the pipe" and then since it loops back around we need to turn APERTURE off again or it will delete everything. 
+
+Several other files are included in this github for help plotting. alphamagnet.txt is the code to generate the series of dipoles; alphamagBoundaries.txt is the code to view the kinetic energy boundaries of a 12amp alpha magnet; alphamagTheory.txt is a code to view the trajectory of a certain energy through the alpha magnet; distributionView.txt is a code to view the distribution of any file.
 
 
 ## Definitions
