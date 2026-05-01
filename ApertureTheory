@@ -1,0 +1,34 @@
+&APERTURE
+    LApert = .T.
+    !aperture on is true
+    File_Aperture(1) = 'Col_X'
+    Ap_Z1(1) = -0.001
+    Ap_Z2(1) = 0.001
+    Ap_R(1) = 8
+    A_xrot(1) = -2.28131986526
+    A_pos(1) =  0.0874606
+    A_xoff(1) = -0.06665015
+/
+The rotation value is in radians (40.71 + 90 degrees)*pi/180
+The aperture is rotated by its center
+90 degree shift is because the aperture is defined to let particles through its side
+_____
+_____
+The A_pos is the z offset
+The offset values were determined by 
+The midpoint (with shift of 0.01 already included) (0.0942231 start + 0.11015398 end)/2  = 0.10818854
+8mm half gap accounted for in Ap_R(1) = 8
+
+The length of the aperture is defined as:
+Ap_Z1(1) = -0.001
+Ap_Z2(1) = 0.001
+Kept very small as it is projected perpendicular to it, so anywhere that touches that range will be subject to cut
+
+To plot:
+The midpoint (0,0.10818854) is rotated by the origin by 40.71 to form (-0.06665015,0.0874606).
+At this point 8mm is taken above and below it if (0,0.0942231) were to be rotated by the origin which is (-0.061456, 0.071421) 
+and if (0,0.11015398) were to be rotated by the origin which is (-0.07184581, 0.08349898).
+Each of these stretch for 0.001
+
+plot([-0.060956,-0.066456], [0.071421,0.071421]) 
+plot([-0.07134581,-0.07684581], [0.08349898,0.08349898]) 
